@@ -1,26 +1,30 @@
 import React, { Fragment, useState, useEffect } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { BellIcon, MenuIcon, XIcon } from '@heroicons/react/outline'
+import { useLocation } from 'react-router-dom'
+
+import { isJSON, isString } from '../../utils/validator'
 
 const mainNavs = [
-  { id: 'dashboard', name: 'dashboard', label: 'Dashboard', href: '#dashboard' },
-  { id: 'stock', name: 'stock', label: 'Stock', href: '#stock' },
-  { id: 'selling', name: 'selling', label: 'Selling', href: '#selling' },
-  { id: 'purchasing', name: 'purchasing', label: 'Purchasing', href: '#purchasing' }
+  { id: 'dashboard', name: 'dashboard', label: 'Dashboard', href: '/dashboard' },
+  { id: 'stock', name: 'stock', label: 'Stock', href: '/stock' },
+  { id: 'selling', name: 'selling', label: 'Selling', href: '/selling' },
+  { id: 'purchasing', name: 'purchasing', label: 'Purchasing', href: '/purchasing' }
 ]
 
 const accountNavs = [
-  { id: 'profile', name: 'profile', label: 'Profile', href: '#profile' },
-  { id: 'settings', name: 'settings', label: 'Settings', href: '#settings' },
-  { id: 'signout', name: 'signout', label: 'Sign Out', href: '#signout' }
+  { id: 'profile', name: 'profile', label: 'Profile', href: '/profile' },
+  { id: 'settings', name: 'settings', label: 'Settings', href: '/settings' },
+  { id: 'signout', name: 'signout', label: 'Sign Out', href: '/signout' }
 ]
 
-const handleAccountNav = (isActive: boolean): string => {
-  const mainClass = 'block px-4 py-2 text-sm text-gray-700 w-full text-left'
-  return isActive ? `bg-gray-100 ${mainClass}` : mainClass
-}
-
 const Header = (): JSX.Element => {
+  /**
+   * Hooks
+   */
+
+  const location = useLocation()
+
   /**
    * States
    */
@@ -32,16 +36,14 @@ const Header = (): JSX.Element => {
    */
 
   useEffect(() => {
-    console.log('activeNav', activeNav)
-  }, [activeNav])
+    if (isJSON(location) && isString(location.pathname)) {
+      setActiveNav(location.pathname)
+    }
+  }, [location])
 
   /**
    * Handlers
    */
-
-  const handleNav = (nav: string): void => {
-    setActiveNav(nav)
-  }
 
   /**
    * Renders
@@ -72,17 +74,16 @@ const Header = (): JSX.Element => {
                 <div className='hidden sm:block sm:ml-6'>
                   <div className='flex space-x-4'>
                     {mainNavs.map((nav) => (
-                      <button
+                      <a
                         key={nav.id}
-                        // href={nav.href}
-                        className={activeNav === nav.id
+                        href={nav.href}
+                        className={activeNav === nav.href
                           ? 'bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium'
                           : 'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium'}
-                        aria-current={activeNav === nav.id ? 'page' : undefined}
-                        onClick={() => handleNav(nav.id)}
+                        aria-current={activeNav === nav.href ? 'page' : undefined}
                       >
                         {nav.label}
-                      </button>
+                      </a>
                     ))}
                   </div>
                 </div>
@@ -115,9 +116,14 @@ const Header = (): JSX.Element => {
                       {accountNavs.map((nav) => (
                         <Menu.Item key={nav.id}>
                           {({ active }) => (
-                            <button className={handleAccountNav(active)}>
+                            <a
+                              href={nav.href}
+                              className={active
+                                ? 'bg-gray-100 block px-4 py-2 text-sm text-gray-700'
+                                : 'block px-4 py-2 text-sm text-gray-700'}
+                            >
                               {nav.label}
-                            </button>
+                            </a>
                           )}
                         </Menu.Item>
                       ))}
@@ -133,18 +139,17 @@ const Header = (): JSX.Element => {
           <Disclosure.Panel className='sm:hidden'>
             <div className='px-2 pt-2 pb-3 space-y-1'>
               {mainNavs.map((nav) => (
-                <div key={nav.id} onClick={() => handleNav(nav.id)}>
-                  <Disclosure.Button
-                    // as='a'
-                    // href={nav.href}
-                    className={activeNav === nav.id
-                      ? 'bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium'
-                      : 'text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium'}
-                    aria-current={activeNav === nav.id ? 'page' : undefined}
-                  >
-                    {nav.label}
-                  </Disclosure.Button>
-                </div>
+                <Disclosure.Button
+                  key={nav.id}
+                  as='a'
+                  href={nav.href}
+                  className={activeNav === nav.href
+                    ? 'bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium'
+                    : 'text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium'}
+                  aria-current={activeNav === nav.href ? 'page' : undefined}
+                >
+                  {nav.label}
+                </Disclosure.Button>
               ))}
             </div>
           </Disclosure.Panel>
