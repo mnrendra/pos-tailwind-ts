@@ -1,46 +1,53 @@
-# Getting Started with Create React App
+# POS (Point of Sale) Tailwind TS
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Hi! This is my POS ReactJs project built using Tailwind and Typescript.
 
-## Available Scripts
+## If you wanna create your own project like this (build ReactJs using Tailwind and Typescript), please following these steps:
 
-In the project directory, you can run:
+### 1. Created using CRA and Typescript tamplate:
+### `npx create-react-app pos-tailwind-ts --template typescript`
+### `cd pos-tailwind-ts`
 
-### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### 2. Install Tailwind by following:
+### [https://tailwindcss.com/docs/guides/create-react-app](https://tailwindcss.com/docs/guides/create-react-app)
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### 3. Replace `tailwind.config.js` by:
+```
+module.exports = {
+  content: [
+    './src/**/*.{js,jsx,ts,tsx,html}',
+    './public/index.html'
+  ],
+  theme: {
+    extend: {}
+  },
+  plugins: []
+}
+```
 
-### `npm test`
+### 4. Try to teplace `App.tsx` by:
+```
+import React from 'react'
+import Logo from './logo.svg'
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+const App = (): JSX.Element => {
+  return (
+    <div className='p-6 max-w-sm mx-auto bg-white rounded-xl shadow-lg flex items-center space-x-4 dark:bg-slate-900'>
+      <div className='shrink-0'>
+        <img className='h-12 w-12' src={Logo} alt='ChitChat Logo' />
+      </div>
+      <div>
+        <div className='text-xl font-medium dark:text-white'>ChitChat</div>
+        <p className='dark:text-slate-400'>You have a new message!</p>
+      </div>
+    </div>
+  )
+}
 
-### `npm run build`
+export default App
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+*Noted: you can replace the `Logo` by your own logo.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+#### Thank you!
