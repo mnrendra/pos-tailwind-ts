@@ -6,7 +6,7 @@ interface Props {
 
 const Main = ({ children }: Props): JSX.Element => {
   return (
-    <div className='min-h-full bg-gray-100'>
+    <div className='flex flex-col w-full h-full bg-gray-100'>
       {children}
     </div>
   )
